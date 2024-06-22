@@ -1,0 +1,49 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dotenv environment variables file
+.env
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# OS specific files
+Thumbs.db
+.DS_Store
+
+# Jest
+coverage/
+
+# Build output
+dist/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Tailwind CSS
+.purgecss/
+
+# Vite
+.vite/
+
+# Miscellaneous
+*.tgz
+*.lock
+.pnpm-debug.log*
