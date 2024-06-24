@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Team",
+    "team",
     {
       id: {
         type: DataTypes.UUID,
@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
         validate: {
+          isAlpha: {
+            msg: "Name should only contain letters",
+          },
           len: {
             args: [2, 32],
             msg: "Team name should be between 2 and 32 characters",
