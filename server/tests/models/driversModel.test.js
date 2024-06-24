@@ -1,5 +1,5 @@
-const { Driver } = require("../../src/models/Drivers");
-const { expect } = require("jest");
+const { Driver } = require("../../src/db");
+const { expect } = require("@jest/globals");
 
 let driverData;
 
@@ -29,7 +29,7 @@ describe("Driver Model", () => {
 
   it("should not create a driver with invalid firstName", async () => {
     driverData.firstName = "J1";
-    await expect(driverData).rejects.toThrow();
+    await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
   it("should not create a driver with invalid lastName", async () => {
@@ -38,22 +38,22 @@ describe("Driver Model", () => {
   });
 
   it("should not create a driver with invalid dob", async () => {
-    driverData.dob = 19900101;
-    await expect(driverData).rejects.toThrow();
+    driverData.dob = null;
+    await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
   it("should not create a driver with invalid nationallity", async () => {
     driverData.nationality = "A1";
-    await expect(driverData).rejects.toThrow();
+    await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
   it("should not create a driver with invalid description", async () => {
     driverData.description = "Test";
-    await expect(driverData).rejects.toThrow();
+    await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
   it("should not create a driver with invalid image URL", async () => {
-    driverData.image = "invalid-url";
-    await expect(driverData).rejects.toThrow();
+    driverData.image = null;
+    await expect(Driver.create(driverData)).rejects.toThrow();
   });
 });

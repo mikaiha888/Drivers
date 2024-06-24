@@ -1,11 +1,12 @@
-const { Team } = require("../../src/models/Teams");
-const { expect } = require("jest");
+const { Team } = require("../../src/db");
+const { expect } = require("@jest/globals");
 
-const teamData = { name: "test" };
+const teamData = { name: "Test" };
 
 describe("Team Model", () => {
   it("should create a team with valid attributes", async () => {
     const team = await Team.create(teamData);
+    
     expect(team.id).toBeDefined();
     expect(team.name).toBe(teamData.name);
   });
