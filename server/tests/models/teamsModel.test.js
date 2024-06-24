@@ -1,5 +1,4 @@
 const { Team } = require("../../src/db");
-const { expect } = require("@jest/globals");
 
 const teamData = { name: "Test" };
 

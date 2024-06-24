@@ -1,16 +1,15 @@
 const { Driver } = require("../../src/db");
-const { expect } = require("@jest/globals");
 
 let driverData;
 
 beforeEach(() => {
   driverData = {
-    firstName: "John",
-    lastName: "Doe",
+    firstName: "user",
+    lastName: "test",
     dob: "1990-01-01",
     nationality: "American",
     description: "Experienced driver",
-    image: "http://example.com/image.jpg",
+    image: "user_test.jpg",
   };
 });
 
@@ -28,12 +27,12 @@ describe("Driver Model", () => {
   });
 
   it("should not create a driver with invalid firstName", async () => {
-    driverData.firstName = "J1";
+    driverData.firstName = "user1";
     await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
   it("should not create a driver with invalid lastName", async () => {
-    driverData.lastName = "D1";
+    driverData.lastName = "test1";
     await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
@@ -43,12 +42,12 @@ describe("Driver Model", () => {
   });
 
   it("should not create a driver with invalid nationallity", async () => {
-    driverData.nationality = "A1";
+    driverData.nationality = null;
     await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
   it("should not create a driver with invalid description", async () => {
-    driverData.description = "Test";
+    driverData.description = null;
     await expect(Driver.create(driverData)).rejects.toThrow();
   });
 
