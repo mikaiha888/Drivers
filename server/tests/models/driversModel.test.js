@@ -13,6 +13,10 @@ beforeEach(() => {
   };
 });
 
+afterAll(async () => {
+  await Driver.destroy({ truncate: true, cascade: true, restartIdentity: true })
+})
+
 describe("Driver Model", () => {
   it("should create a driver with valid attributes", async () => {
     const driver = await Driver.create(driverData);
