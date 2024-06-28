@@ -1,19 +1,38 @@
 const request = require("supertest");
-const app = require("../../src/app");
+const express = require("express");
 const { Driver } = require("../../src/db");
+const {
+  getAllDrivers,
+  getDriverById,
+  getDriversByName,
+} = require("../../src/handlers/drivers-handler");
+
+const app = express();
+app.get("/drivers/search", getDriversByName);
+app.get("/drivers", getAllDrivers);
+app.get("/drivers/:id", getDriverById);
+// app.post("/drivers")
+// app.put("/drivers/:id")
+// app.delete("/drivers:id")
 
 beforeAll(async () => {
-  await Driver.bulkCreate([
-    {
-      id: "550e8400-e29b-41d4-a716-446655440000",
-      firstName: "one",
-      lastName: "test",
-      dob: "1990-01-01",
-      nationality: "American",
-      description: "Experienced driver",
-      image: "one_test.jpg",
-    },
-  ]);
+  await Driver.create({
+    id: "550e8400-e29b-41d4-a716-446655440000",
+    firstName: "one",
+    lastName: "test",
+    dob: "1990-01-01",
+    nationality: "American",
+    description: "Experienced driver",
+    image: "one_test.jpg",
+  });
+});
+
+afterAll(async () => {
+  await Driver.destroy({
+    truncate: true,
+    cascade: true,
+    restartIdentity: true,
+  });
 });
 
 describe("Drivers Routes", () => {
@@ -33,7 +52,7 @@ describe("Drivers Routes", () => {
 
       expect(response.status).toBe(200);
       expect(typeof response.body === "object").toBe(true);
-      expect(response.body.id).toBe(1);
+      expect(response.body.id).toBe("1");
     });
 
     it("should return 200 and driver data from database for UUID ID", async () => {
@@ -42,7 +61,7 @@ describe("Drivers Routes", () => {
       );
 
       expect(response.status).toBe(200);
-      expect(typeof response.body).toBe('object');
+      expect(typeof response.body).toBe("object");
       expect(response.body.id).toBe("550e8400-e29b-41d4-a716-446655440000");
     });
   });
@@ -71,7 +90,7 @@ describe("Drivers Routes", () => {
       const response = await request(app).post("/drivers").send(driverData);
 
       expect(response.status).toBe(201);
-      expect(typeof response.body).toBe('object');
+      expect(typeof response.body).toBe("object");
     });
   });
 
@@ -91,7 +110,7 @@ describe("Drivers Routes", () => {
         .send(driverData);
 
       expect(response.status).toBe(200);
-      expect(typeof response.body).toBe('object');
+      expect(typeof response.body).toBe("object");
       expect(response.body.name).toBe(driverData.name);
     });
   });
