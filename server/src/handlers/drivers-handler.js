@@ -7,9 +7,9 @@ const {
 const getAllDrivers = async (req, res) => {
   try {
     const response = await getAllDriversController();
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (error) {
-    throw error;
+    res.status(500).send(error.message);
   }
 };
 
@@ -18,20 +18,20 @@ const getDriverById = async (req, res) => {
     const { id } = req.params;
     const source = isNaN(id) ? "db" : "api";
     const response = await getDriverByIdController(id, source);
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (error) {
-    throw error;
+    res.status(500).send(error.message);
   }
 };
 
 const getDriversByName = async (req, res) => {
   try {
     const query = req.query.name.toLowerCase();
-    if (!query) res.status(400).send("Faltan datos")
+    if (!query) res.status(400).send("Faltan datos");
     const response = await getDriversByNameController(query);
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (error) {
-    throw error;
+    res.status(500).send(error.message);
   }
 };
 
