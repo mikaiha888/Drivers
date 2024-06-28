@@ -30,7 +30,25 @@ const getDriverByIdController = async (id, source) => {
   }
 };
 
+const getDriversByNameController = async (name) => {
+  try {
+    const drivers = await Promise.all(
+      (
+        await getAllDriversController()
+      ).filter(
+        (d) =>
+          d.firstName.toLowerCase().includes(name) ||
+          d.lastName.toLowerCase().includes(name)
+      )
+    );
+    return drivers;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllDriversController,
   getDriverByIdController,
+  getDriversByNameController,
 };

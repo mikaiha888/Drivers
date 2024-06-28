@@ -1,6 +1,7 @@
 const {
   getAllDriversController,
   getDriverByIdController,
+  getDriversByNameController,
 } = require("../controllers/drivers-controller");
 
 const getAllDrivers = async (req, res) => {
@@ -23,7 +24,19 @@ const getDriverById = async (req, res) => {
   }
 };
 
+const getDriversByName = async (req, res) => {
+  try {
+    const query = req.query.name.toLowerCase();
+    if (!query) res.status(400).send("Faltan datos")
+    const response = await getDriversByNameController(query);
+    return res.status(200).json(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllDrivers,
   getDriverById,
+  getDriversByName,
 };
