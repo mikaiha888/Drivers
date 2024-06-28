@@ -1,13 +1,16 @@
 const axios = require("axios");
-const { Driver } = require("../db");
+const { Driver, Team } = require("../db");
+const { modifyDbDrivers, modifyApiDrivers } = require("./utils");
 
 const URL = "http://localhost:6000/drivers";
 
 const getAllDriversController = async () => {
   try {
-    const dbDriver = await Driver.findAll();
     const apiDrivers = (await axios.get(URL)).data;
-    return [...dbDriver, ...apiDrivers];
+    const dbDrivers = await Driver.findAll({
+      include: [{ model: Team, as: "teams" }],
+    });
+    return [...modifyApiDrivers(apiDrivers), ...modifyDbDrivers(dbDrivers)];
   } catch (error) {
     throw error;
   }
