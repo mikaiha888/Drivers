@@ -47,8 +47,30 @@ const getDriversByNameController = async (name) => {
   }
 };
 
+const createDriverController = async (newDriverData) => {
+  try {
+    const { teams, ...driverData } = newDriverData;
+    const [newDriver] = await Driver.findOrCreate({
+      where: { ...driverData },
+    });
+    const newTeams = await Promise.all(
+      teams.map(
+        async (team) => (await Team.findOrCreate({ where: { name: team } }))[0]
+      )
+    );
+    await newDriver.addTeams(newTeams);
+    return {
+      ...newDriver.dataValues,
+      teams: newTeams.map((t) => t.dataValues),
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllDriversController,
   getDriverByIdController,
   getDriversByNameController,
+  createDriverController,
 };
