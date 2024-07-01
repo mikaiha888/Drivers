@@ -1,41 +1,38 @@
 const request = require("supertest");
 const express = require("express");
-const { Driver } = require("../../src/db");
-const {
-  getAllDrivers,
-  getDriverById,
-  getDriversByName,
-} = require("../../src/handlers/drivers-handler");
+const { Driver, Team } = require("../../src/db");
+const driversRouter = require("../../src/routes/driversRouter");
 
 const app = express();
-app.get("/drivers/search", getDriversByName);
-app.get("/drivers", getAllDrivers);
-app.get("/drivers/:id", getDriverById);
-// app.post("/drivers")
-// app.put("/drivers/:id")
-// app.delete("/drivers:id")
-
-beforeAll(async () => {
-  await Driver.create({
-    id: "550e8400-e29b-41d4-a716-446655440000",
-    firstName: "one",
-    lastName: "test",
-    dob: "1990-01-01",
-    nationality: "American",
-    description: "Experienced driver",
-    image: "one_test.jpg",
-  });
-});
-
-afterAll(async () => {
-  await Driver.destroy({
-    truncate: true,
-    cascade: true,
-    restartIdentity: true,
-  });
-});
+app.use(express.json());
+app.use("/drivers", driversRouter);
 
 describe("Drivers Routes", () => {
+  beforeAll(async () => {
+    await Driver.create({
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      firstName: "one",
+      lastName: "test",
+      dob: "1990-01-01",
+      nationality: "American",
+      description: "Experienced driver",
+      image: "one_test.jpg",
+    });
+  });
+
+  afterAll(async () => {
+    await Driver.destroy({
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
+    await Team.destroy({
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
+  });
+
   describe("GET /drivers", () => {
     it("should return 200 and an array of drivers", async () => {
       const response = await request(app).get("/drivers");
@@ -85,6 +82,7 @@ describe("Drivers Routes", () => {
         nationality: "American",
         description: "Experienced driver",
         image: "three_test.jpg",
+        teams: ["testOne", "testTwo"],
       };
 
       const response = await request(app).post("/drivers").send(driverData);
@@ -103,6 +101,7 @@ describe("Drivers Routes", () => {
         nationality: "American",
         description: "Experienced driver",
         image: "four_test.jpg",
+        teams: ["testOne", "testTwo"],
       };
 
       const response = await request(app)
