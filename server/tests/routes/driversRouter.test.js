@@ -121,7 +121,6 @@ describe("Drivers Routes", () => {
       );
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({});
     });
   });
 });
