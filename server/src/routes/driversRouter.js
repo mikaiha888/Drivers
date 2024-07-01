@@ -5,6 +5,7 @@ const {
   getDriversByName,
   createDriver,
   updateDriver,
+  deleteDriver
 } = require("../handlers/drivers-handler");
 
 const driversRouter = Router();
@@ -13,6 +14,6 @@ driversRouter.get("/", getAllDrivers);
 driversRouter.get("/:id", getDriverById);
 driversRouter.post("/", createDriver);
 driversRouter.put("/:id", updateDriver);
-// driversRouter.delete("/:id");
+driversRouter.delete("/:id", deleteDriver);
 
 module.exports = driversRouter;

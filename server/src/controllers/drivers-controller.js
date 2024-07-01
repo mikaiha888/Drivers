@@ -82,10 +82,20 @@ const updateDriverController = async (newDriverData, id) => {
   }
 };
 
+const deleteDriverController = async (id) => {
+  try {
+    await Driver.destroy({ where: { id: id } });
+    return `Driver with id: ${id} was deleted`
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllDriversController,
   getDriverByIdController,
   getDriversByNameController,
   createDriverController,
   updateDriverController,
+  deleteDriverController
 };
